@@ -278,6 +278,22 @@
                 console.log("TransactionId: " + JSON.stringify(transactionId));
                 document.getElementById("ConnectorStatus").value = "Charging";
 
+                var SN = JSON.stringify([
+                    2,
+                    ddata[3].idTag,
+                    "StatusNotification",
+                    {
+                      connectorId: parseInt($("#CUID").val()),
+                      status: 'Charging',
+                      errorCode: "NoError",
+                      info: "",
+                      timestamp: new Date().toISOString(),
+                      vendorId: "",
+                      vendorErrorCode: "",
+                    },
+                  ]);
+                  _websocket.send(SN);
+
               }
               if (la === "stopTransaction") {
                 document.getElementById("ConnectorStatus").value = "Charging";
@@ -314,24 +330,24 @@
                     // Lógica para iniciar la transacción en el conector específico
                     
                   
+                    var SN = JSON.stringify([
+                      2,
+                      idTag,
+                      "StatusNotification",
+                      {
+                        connectorId: parseInt($("#CUID").val()),
+                        status: 'Available',
+                        errorCode: "NoError",
+                        info: "",
+                        timestamp: new Date().toISOString(),
+                        vendorId: "",
+                        vendorErrorCode: "",
+                      },
+                    ]);
+                    _websocket.send(SN);
                  
                     stopTransaction(idTag);
 
-                    var SN = JSON.stringify([
-                          2,
-                          idTag,
-                          "StatusNotification",
-                          {
-                            connectorId: parseInt($("#CUID").val()),
-                            status: 'Avalaible',
-                            errorCode: "NoError",
-                            info: "",
-                            timestamp: new Date().toISOString(),
-                            vendorId: "",
-                            vendorErrorCode: "",
-                          },
-                        ]);
-                        _websocket.send(SN);
 
                     $(".indicator").hide();
                     $("#yellow").show();
@@ -350,6 +366,7 @@
                   console.log(ddata)
 
                   var idTag = ddata[3].idTag;
+                  console.log(idTag)
                     
                     // Aquí, necesitarías lógica específica para manejar el inicio de transacción en el conector indicado
                     // Esta es solo una plantilla básica de cómo podría verse el mensaje
@@ -362,23 +379,8 @@
                       startTransaction(connectorId, idTag)
 
 
-                      var SN = JSON.stringify([
-                          2,
-                          idTag,
-                          "StatusNotification",
-                          {
-                            connectorId: parseInt($("#CUID").val()),
-                            status: 'Charging',
-                            errorCode: "NoError",
-                            info: "",
-                            timestamp: new Date().toISOString(),
-                            vendorId: "",
-                            vendorErrorCode: "",
-                          },
-                        ]);
-                        _websocket.send(SN);
+                      
 
-                        console.log(SN)
                       
                     }
 
